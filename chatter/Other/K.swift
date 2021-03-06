@@ -13,5 +13,5 @@ struct K{
         static let dateField = "date"
     }
     
-    static var collectionsCreated = []
+    static var collectionsCreated:[String] = []
 }

@@ -1,15 +1,15 @@
 import UIKit
 import Firebase
+import FirebaseFirestore
 
-
-class ChatsViewController: UIViewController {
-
-    @IBOutlet weak var tableView: UITableView!
+class ChatsViewController: UIViewController{
+    
     @IBOutlet weak var textfieldOutlet: UITextField!
+    
+    private var messages:[String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
         navigationItem.hidesBackButton = true
     }
     
@@ -51,18 +51,4 @@ class ChatsViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
     }
-}
-
-//MARK:- Table view data source delegate
-
-extension ChatsViewController: UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3 //will be changed
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
-    }
-    
-    
 }

@@ -1,15 +1,14 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
-import MessageKit
 
 class ChatScreenViewController: UIViewController{
 
     @IBOutlet weak var textOutlet: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
-    var messages: [Message] = []
-    var db = Firestore.firestore()
+    private var messages: [Message] = []
+    private var db = Firestore.firestore()
     var recipient = ""
     
     override func viewDidLoad() {
@@ -24,7 +23,7 @@ class ChatScreenViewController: UIViewController{
     @IBAction func sendPressed(_ sender: UIButton) {
         if let messageBody = textOutlet.text, let sender = Auth.auth().currentUser?.email{
             K.collectionsCreated.append("\([sender,recipient].sorted()[0])&\([sender,recipient].sorted()[1])")
-            db.collection(K.collectionsCreated[K.collectionsCreated.count-1] as! String).addDocument(data:[
+            db.collection(K.collectionsCreated[K.collectionsCreated.count-1] ).addDocument(data:[
                 K.FStore.senderField:sender,
                 K.FStore.bodyField:messageBody,
                 K.FStore.dateField: Date().timeIntervalSince1970
@@ -62,7 +61,7 @@ class ChatScreenViewController: UIViewController{
                                     DispatchQueue.main.async {
                                         self.tableView.reloadData()
                                         let indexpath = IndexPath(row: self.messages.count-1, section: 0)
-                                        self.tableView.scrollToRow(at: indexpath, at: .top, animated: true)
+                                        self.tableView.scrollToRow(at: indexpath, at: .bottom, animated: true)
                                     }
                                 }
                             }
