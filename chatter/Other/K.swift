@@ -4,8 +4,9 @@ struct K{
     static var welcomeToLoginSegue = "welcomeToLogin"
     static var welcomeToRegisterSegue = "welcomeToRegister"
     static var chatsToMessagesSegue = "chatsToMessages"
-    static var reusableCell = "reusableCell"
-    static var reusableChatsCell = "reusableChatsCell"
+    static var nibname = "MessageCell"
+    static var customCell = "customCell"
+    static var reusablecell = "reusablecell"
     
     struct FStore {
         static let senderField = "sender"

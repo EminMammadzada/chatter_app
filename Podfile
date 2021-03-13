@@ -9,6 +9,4 @@ target 'chatter' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'IQKeyboardManagerSwift'
-  pod 'MessageKit', '~> 3.3.0'
-
 end

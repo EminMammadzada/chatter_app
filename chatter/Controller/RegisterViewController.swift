@@ -4,7 +4,6 @@ import Firebase
 class RegisterViewController: UIViewController {
 
     @IBOutlet weak var passwordOutlet: UITextField!
-    @IBOutlet weak var usernameOutlet: UITextField!
     @IBOutlet weak var emailOutlet: UITextField!
     @IBOutlet weak var signupOutlet: UIButton!
     
@@ -21,7 +20,6 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         addShadow(to: signupOutlet)
         addShadow(to: passwordOutlet)
-        addShadow(to: usernameOutlet)
         addShadow(to: emailOutlet)
         
     }

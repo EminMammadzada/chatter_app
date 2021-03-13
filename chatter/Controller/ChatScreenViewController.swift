@@ -15,26 +15,33 @@ class ChatScreenViewController: UIViewController{
         super.viewDidLoad()
         navigationItem.title = recipient
         tableView.dataSource = self
+        tableView.register(UINib(nibName: K.nibname, bundle: nil), forCellReuseIdentifier: K.customCell)
+        
+        tableView.reloadData()
+        
         load_messages()
     }
     
     //MARK: - Firestore related functions (uploading,querying data from Cloud)
     
     @IBAction func sendPressed(_ sender: UIButton) {
-        if let messageBody = textOutlet.text, let sender = Auth.auth().currentUser?.email{
-            K.collectionsCreated.append("\([sender,recipient].sorted()[0])&\([sender,recipient].sorted()[1])")
-            db.collection(K.collectionsCreated[K.collectionsCreated.count-1] ).addDocument(data:[
-                K.FStore.senderField:sender,
-                K.FStore.bodyField:messageBody,
-                K.FStore.dateField: Date().timeIntervalSince1970
-            ]){ err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                } else {
-                    DispatchQueue.main.async{
-                        self.textOutlet.text = ""
+        
+        if textOutlet.text != "" {
+            if let messageBody = textOutlet.text, let sender = Auth.auth().currentUser?.email{
+                K.collectionsCreated.append("\([sender,recipient].sorted()[0])&\([sender,recipient].sorted()[1])")
+                db.collection(K.collectionsCreated[K.collectionsCreated.count-1] ).addDocument(data:[
+                    K.FStore.senderField:sender,
+                    K.FStore.bodyField:messageBody,
+                    K.FStore.dateField: Date().timeIntervalSince1970
+                ]){ err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    } else {
+                        DispatchQueue.main.async{
+                            self.textOutlet.text = ""
+                        }
+                        return
                     }
-                    return
                 }
             }
         }
@@ -60,8 +67,8 @@ class ChatScreenViewController: UIViewController{
                                     
                                     DispatchQueue.main.async {
                                         self.tableView.reloadData()
-                                        let indexpath = IndexPath(row: self.messages.count-1, section: 0)
-                                        self.tableView.scrollToRow(at: indexpath, at: .bottom, animated: true)
+                                        let indexpath = IndexPath(row: self.messages.count-1, section:0)
+                                        self.tableView.scrollToRow(at: indexpath, at: .top, animated: false)
                                     }
                                 }
                             }
@@ -74,25 +81,22 @@ class ChatScreenViewController: UIViewController{
 //MARK:- TableView delegate methods
 
 extension ChatScreenViewController: UITableViewDataSource{
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = messages[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.reusableCell)!
-        cell.textLabel?.text = message.body
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.customCell)! as! MessageCell
+        cell.label.text = message.body
         
         if message.sender == Auth.auth().currentUser?.email{
-            cell.backgroundColor = .green
-            cell.textLabel?.textColor = UIColor.white
+            cell.MessageBubble.backgroundColor = UIColor(named: "custom_green")
         }
         else{
-            cell.backgroundColor = UIColor.white
-            cell.textLabel?.textColor = UIColor.black
+            cell.MessageBubble.backgroundColor = UIColor.white
         }
-        
         return cell
     }
 }

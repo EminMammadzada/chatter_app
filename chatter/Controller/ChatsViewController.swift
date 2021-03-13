@@ -11,6 +11,7 @@ class ChatsViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
+        
     }
     
     @IBAction func startChattingPressed(_ sender: UIButton) {
@@ -49,6 +50,7 @@ class ChatsViewController: UIViewController{
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             // show the alert
             self.present(alert, animated: true, completion: nil)
-        }
+            }
     }
 }
+
